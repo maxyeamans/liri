@@ -28,6 +28,7 @@ switch (COMMAND) {
     // do stuff
 };
 
+// API reference: https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-user_timeline.html
 function getTweets() {
     // This needs to get the 20 latest tweets from my account
     // Create a Twitter object with all the necessary keys.
@@ -77,6 +78,24 @@ function getMovieInfo(movie) {
         Plot of the movie.
         Actors in the movie.*/
     // If no movie is provided, get the deets for Mr. Nobody
+    let queryURL = "http://www.omdbapi.com/?t=" + movie + "&y=&plot=short&apikey=trilogy";
+    request(queryURL, function(error, response, body) {
+        if(error){
+            console.log("Something went wrong", error);
+        }
+        else {
+            let movieResponse = JSON.parse(body);
+            // Tighten this up somehow
+            console.log("Title: ", movieResponse.Title);
+            console.log("Year: ", movieResponse.Year);
+            console.log("IMDB Rating: ", movieResponse.Ratings[0].Value);
+            console.log("Rotten Tomatoes Rating: ", movieResponse.Ratings[1].Value);
+            console.log("Produced in: ", movieResponse.Country);
+            console.log("Language: ", movieResponse.Language);
+            console.log("Plot: ", movieResponse.Plot);
+            console.log("Actors: ", movieResponse.Actors);
+        }
+    });
 };
 
 function doSomething() {
