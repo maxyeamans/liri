@@ -39,7 +39,7 @@ function getTweets() {
     });
     // Parameters for the API request
     let tweetParams = {
-        user_id: "maxyeamans",
+        screen_name: "maxyeamans",
         count: 20
     }
 
@@ -49,7 +49,10 @@ function getTweets() {
             console.log("Something went wrong");
         }
         else {
-            console.log(tweets);
+            console.log("Tweets from @" + tweetParams.screen_name + ":");
+            tweets.forEach( function(tweet) {
+                console.log(tweet.text + "\n");
+            });
         }
     })
 };
