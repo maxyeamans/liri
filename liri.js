@@ -15,18 +15,24 @@ const nodeArg = process.argv.slice(3);
 // Join the process args into a single string for API calls
 const COMMAND_ARG = nodeArg.join(" ");
 
-switch (COMMAND) {
-    case "my-tweets":
-        getTweets();
-    case "spotify-this-song":
-        getSongInfo(COMMAND_ARG);
-    case "movie-this":
-        getMovieInfo(COMMAND_ARG);
-    case "do-what-it-says":
-    // do stuff
-    default:
-    // do stuff
+// Determine what the user's input should do
+function pickSomeCommand(aCommand, aCommandArg) {
+    switch (aCommand) {
+        case "my-tweets":
+            getTweets();
+        case "spotify-this-song":
+            getSongInfo(aCommandArg);
+        case "movie-this":
+            getMovieInfo(aCommandArg);
+        case "do-what-it-says":
+            doSomething();
+        default:
+        // do stuff
+    };
 };
+
+// Run a function based on the user's input
+pickSomeCommand(COMMAND, COMMAND_ARG);
 
 // API reference: https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-user_timeline.html
 function getTweets() {
@@ -51,22 +57,24 @@ function getTweets() {
         }
         else {
             console.log("Tweets from @" + tweetParams.screen_name + ":");
-            tweets.forEach( function(tweet) {
+            tweets.forEach(function (tweet) {
                 console.log(tweet.text + "\n");
             });
         }
     })
 };
 
+//
 function getSongInfo(song) {
     // This needs to get:
     /*  Artist(s)
-        Song name
-        Album
-        Preview link for the song */
+    Song name
+    Album
+    Preview link for the song */
     // If no song is provided, default it to "The Sign" by Ace of Base
 };
 
+// Function to get movie info based on user input
 function getMovieInfo(movie) {
     // This needs to get
     /*  Title of the movie.
@@ -78,11 +86,18 @@ function getMovieInfo(movie) {
         Plot of the movie.
         Actors in the movie.*/
     // If no movie is provided, get the deets for Mr. Nobody
+    if (movie === undefined) {
+        movie = "Mr. Nobody";
+    }
+
     let queryURL = "http://www.omdbapi.com/?t=" + movie + "&y=&plot=short&apikey=trilogy";
-    request(queryURL, function(error, response, body) {
-        if(error){
+    request(queryURL, function (error, response, body) {
+        if (error) {
             console.log("Something went wrong", error);
         }
+        /* else if (movieResponse.Response === "False") {
+            console.log("Are you sure that you typed in an actual movie?");
+        } */
         else {
             let movieResponse = JSON.parse(body);
             // Tighten this up somehow
@@ -98,6 +113,8 @@ function getMovieInfo(movie) {
     });
 };
 
+// This will read random.txt, split the text into a command and command argument, then use those as
+// arguments in the pickSomeCommand() function.
 function doSomething() {
     // Do a random thing
 };
