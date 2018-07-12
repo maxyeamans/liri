@@ -38,6 +38,7 @@ function pickSomeCommand(aCommand, aCommandArg) {
 // Run a function based on the user's input
 pickSomeCommand(COMMAND, COMMAND_ARG);
 
+// Run this when the user passes the node argument "my-tweets". No additional args required.
 // API reference: https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-user_timeline.html
 function getTweets() {
     // This needs to get the 20 latest tweets from my account
@@ -68,18 +69,24 @@ function getTweets() {
     })
 };
 
-// Function to get info about a track from Spotify
+/*  Run this when the user passes the node argument "spotify-this-song".
+    Accepts a song title after the call as a series of strings and concatenates them into one argument, like so
+        spotify-this-song all the small things
+    or you can pass a string in quotes, like so
+        spotify-this-song "all the small things"
+    The latter works more consistently than the former. */
 function getSongInfo(song) {
     // This needs to get:
     /*  Artist(s)
     Song name
     Album
     Preview link for the song */
-    
-    // If no song is provided, default it to "The Sign" by Ace of Base
-    if(song == "") {
+
+    // If no song is provided, default it to "The Sign" by Ace of Base.
+    if (song == "") {
         song = "The Sign Ace of Base"
     };
+    // Please don't actually let this happen.
 
     // Create the Spotify object WITH A CONSTRUCTOR OMG
     let spotifyClient = new Spotify({
@@ -95,7 +102,7 @@ function getSongInfo(song) {
     };
 
     // Search for the song
-    spotifyClient.search(searchParams, function(err, data) {
+    spotifyClient.search(searchParams, function (err, data) {
         if (err) {
             console.log("Something wrong happened. I blame you.");
             console.log(err);
@@ -112,7 +119,12 @@ function getSongInfo(song) {
     });
 };
 
-// Function to get movie info based on user input
+/*  Run this when the user passes the node argument "movie-this".
+    Accepts a movie title after the call as a series of strings and concatenates them into one argument, like so
+        movie-this empire strikes back
+    or you can pass a string in quotes, like so
+        movie-this "empire strikes back"
+    The latter works more consistently than the former. */
 function getMovieInfo(movie) {
     // This needs to get
     /*  Title of the movie.
@@ -124,7 +136,7 @@ function getMovieInfo(movie) {
         Plot of the movie.
         Actors in the movie.*/
     // If no movie is provided, get the deets for Mr. Nobody
-    if (movie === undefined) {
+    if (movie === "") {
         movie = "Mr. Nobody";
     }
 
@@ -151,8 +163,17 @@ function getMovieInfo(movie) {
     });
 };
 
-// This will read random.txt, split the text into a command and command argument, then use those as
-// arguments in the pickSomeCommand() function.
+/* This will read random.txt, split the text into a command and command argument, then use those as
+arguments in the pickSomeCommand() function. */
 function doSomething() {
-    // Do a random thing
+    var fs = require("fs");
+
+    fs.readFile("random.txt", "utf-8", function (err, data) {
+        if (err) {
+            return console.log("Something went wrong.", err);
+        }
+
+        const arrCommand = data.split(",");
+        pickSomeCommand(arrCommand[0], arrCommand[1]);
+    });
 };
