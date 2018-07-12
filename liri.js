@@ -5,6 +5,7 @@ const Spotify = require("node-spotify-api");
 const request = require("request");
 const fs = require("fs");
 const keys = require("./keys.js");
+const logSeparator = "\n==========\n";
 
 // Hold the command for this round
 const COMMAND = process.argv[2];
@@ -31,7 +32,7 @@ function pickSomeCommand(aCommand, aCommandArg) {
             doSomething();
             break;
         default:
-        // do stuff
+        // TODO: create a function that will randomly run one of the other functions
     };
 };
 
@@ -109,13 +110,21 @@ function getSongInfo(song) {
             return;
         }
         // Little shortcut variable because Spotify returns GIGANTIC response objects
-        let objectShortcut = data.tracks.items[0];
+        let spotifyResults = data;
+        let objectShortcut = spotifyResults.tracks.items[0];
 
         // Display the song results. If you got "The Sign", shame on you.
         console.log("Song: ", objectShortcut.name);
         console.log("Band: ", objectShortcut.artists[0].name);
         console.log("Album: ", objectShortcut.album.name);
         console.log("Preview the song: ", objectShortcut.artists[0].external_urls.spotify);
+        // let arrLog = [];
+        // arrLog.push("\nSong: " + objectShortcut.name);
+        // arrLog.push("\nBand: " + objectShortcut.artists[0].name);
+        // arrLog.push("\nAlbum: " + objectShortcut.album.name);
+        // arrLog.push("\nPreview the song: " + objectShortcut.artists[0].external_urls.spotify);
+        // arrLog.push(logSeparator);
+        // logAndStoreResults(arrLog);
     });
 };
 
@@ -151,14 +160,25 @@ function getMovieInfo(movie) {
         else {
             let movieResponse = JSON.parse(body);
             // Tighten this up somehow
-            console.log("Title: ", movieResponse.Title);
-            console.log("Year: ", movieResponse.Year);
-            console.log("IMDB Rating: ", movieResponse.Ratings[0].Value);
-            console.log("Rotten Tomatoes Rating: ", movieResponse.Ratings[1].Value);
-            console.log("Produced in: ", movieResponse.Country);
-            console.log("Language: ", movieResponse.Language);
-            console.log("Plot: ", movieResponse.Plot);
-            console.log("Actors: ", movieResponse.Actors);
+            // console.log("Title: ", movieResponse.Title);
+            // console.log("Year: ", movieResponse.Year);
+            // console.log("IMDB Rating: ", movieResponse.Ratings[0].Value);
+            // console.log("Rotten Tomatoes Rating: ", movieResponse.Ratings[1].Value);
+            // console.log("Produced in: ", movieResponse.Country);
+            // console.log("Language: ", movieResponse.Language);
+            // console.log("Plot: ", movieResponse.Plot);
+            // console.log("Actors: ", movieResponse.Actors);
+            let arrLog = [];
+            arrLog.push("\nTitle: " + movieResponse.Title);
+            arrLog.push("\nYear: " + movieResponse.Year);
+            arrLog.push("\nIMDB Rating: " + movieResponse.Ratings[0].Value);
+            arrLog.push("\nRotten Tomatoes Rating: " + movieResponse.Ratings[1].Value);
+            arrLog.push("\nProduced in: " + movieResponse.Country);
+            arrLog.push("\nLanguage: " + movieResponse.Language);
+            arrLog.push("\nPlot: " + movieResponse.Plot);
+            arrLog.push("\nActors: " + movieResponse.Actors);
+            arrLog.push(logSeparator);
+            logAndStoreResults(arrLog);
         }
     });
 };
@@ -175,5 +195,18 @@ function doSomething() {
 
         const arrCommand = data.split(",");
         pickSomeCommand(arrCommand[0], arrCommand[1]);
+    });
+};
+
+// Log the results of each query to a text file and display in the console.
+// TODO: see if I can get the results of each query stored as an object, then rewrite this to accept that object as an argument.
+function logAndStoreResults(arrResult) {
+    arrResult.forEach( function(item){
+        fs.appendFile("log.txt", item, function(err){
+            if(err){
+                return console.log("Something went wrong. And I blame you.");
+            }
+            console.log(item);
+        })
     });
 };
