@@ -1,7 +1,7 @@
 // Get .env values into the app
 require("dotenv").config();
 const Twitter = require("twitter");
-const spotify = require("node-spotify-api");
+const Spotify = require("node-spotify-api");
 const request = require("request");
 const fs = require("fs");
 const keys = require("./keys.js");
@@ -20,12 +20,16 @@ function pickSomeCommand(aCommand, aCommandArg) {
     switch (aCommand) {
         case "my-tweets":
             getTweets();
+            break;
         case "spotify-this-song":
             getSongInfo(aCommandArg);
+            break;
         case "movie-this":
             getMovieInfo(aCommandArg);
+            break;
         case "do-what-it-says":
             doSomething();
+            break;
         default:
         // do stuff
     };
@@ -64,14 +68,48 @@ function getTweets() {
     })
 };
 
-//
+// Function to get info about a track from Spotify
 function getSongInfo(song) {
     // This needs to get:
     /*  Artist(s)
     Song name
     Album
     Preview link for the song */
+    
     // If no song is provided, default it to "The Sign" by Ace of Base
+    if(song == "") {
+        song = "The Sign Ace of Base"
+    };
+
+    // Create the Spotify object WITH A CONSTRUCTOR OMG
+    let spotifyClient = new Spotify({
+        id: keys.spotify.id,
+        secret: keys.spotify.secret
+    });
+
+    // Search parameter object we'll pass in to the search function
+    searchParams = {
+        type: "track",
+        query: song,
+        limit: 1
+    };
+
+    // Search for the song
+    spotifyClient.search(searchParams, function(err, data) {
+        if (err) {
+            console.log("Something wrong happened. I blame you.");
+            console.log(err);
+            return;
+        }
+        // Little shortcut variable because Spotify returns GIGANTIC response objects
+        let objectShortcut = data.tracks.items[0];
+
+        // Display the song results. If you got "The Sign", shame on you.
+        console.log("Song: ", objectShortcut.name);
+        console.log("Band: ", objectShortcut.artists[0].name);
+        console.log("Album: ", objectShortcut.album.name);
+        console.log("Preview the song: ", objectShortcut.artists[0].external_urls.spotify);
+    });
 };
 
 // Function to get movie info based on user input
