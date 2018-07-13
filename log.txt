@@ -1,19 +1,61 @@
 
 Song: All The Small Things
-Preview the song: https://open.spotify.com/artist/6FBDaR13swtiWwGhX1WQsP
 Band: blink-182
+Album: Enema Of The State
+Preview the song: https://open.spotify.com/artist/6FBDaR13swtiWwGhX1WQsP
+
 ==========
 
-Album: Enema Of The StateTitle: Mr. NobodyIMDB Rating: 7.9/10Produced in: Belgium, Germany, Canada, France, USA, UKPlot: A boy stands on a station platform as a train is about to leave. Should he go with his mother or stay with his father? Infinite possibilities arise from this decision. As long as he doesn't choose, anything is possible.Actors: Jared Leto, Sarah Polley, Diane Kruger, Linh Dan PhamRotten Tomatoes Rating: 66%
+Song: Come Original
+Band: 311
+Album: Greatest Hits '93 - '03
+Preview the song: https://open.spotify.com/artist/41Q0HrwWBtuUkJc7C1Rp6K
+
 ==========
-Language: English, MohawkYear: 2009
+
+Song: The Sign
+Band: Ace of Base
+Album: The Sign (US Album) [Remastered]
+Preview the song: https://open.spotify.com/artist/5ksRONqssB7BR161NTtJAm
+
+==========
+
+Title: Star Wars: Episode V - The Empire Strikes Back
+Year: 1980
+IMDB Rating: 8.8/10
+Rotten Tomatoes Rating: 95%
+Produced in: USA
+Language: English
+Plot: After the rebels are brutally overpowered by the Empire on the ice planet Hoth, Luke Skywalker begins Jedi training with Yoda, while his friends are pursued by Darth Vader.
+Actors: Mark Hamill, Harrison Ford, Carrie Fisher, Billy Dee Williams
+
+==========
+
+Title: Avengers: Infinity War
+Year: 2018
+IMDB Rating: 8.7/10
+Rotten Tomatoes Rating: 83%
+Produced in: USA
+Language: English
+Plot: The Avengers and their allies must be willing to sacrifice all in an attempt to defeat the powerful Thanos before his blitz of devastation and ruin puts an end to the universe.
+Actors: Robert Downey Jr., Chris Hemsworth, Mark Ruffalo, Chris Evans
+
+==========
+
 Title: Mr. Nobody
 Year: 2009
+IMDB Rating: 7.9/10
 Rotten Tomatoes Rating: 66%
 Produced in: Belgium, Germany, Canada, France, USA, UK
+Language: English, Mohawk
 Plot: A boy stands on a station platform as a train is about to leave. Should he go with his mother or stay with his father? Infinite possibilities arise from this decision. As long as he doesn't choose, anything is possible.
+Actors: Jared Leto, Sarah Polley, Diane Kruger, Linh Dan Pham
+
 ==========
 
-IMDB Rating: 7.9/10
-Actors: Jared Leto, Sarah Polley, Diane Kruger, Linh Dan Pham
-Language: English, Mohawk
+Song: Never Gonna Give You Up
+Band: Rick Astley
+Album: Whenever You Need Somebody
+Preview the song: https://open.spotify.com/artist/0gxyHStUsqpMadRV0Di1Qt
+
+==========

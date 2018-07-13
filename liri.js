@@ -1,10 +1,13 @@
 // Get .env values into the app
 require("dotenv").config();
+// Add in the modules
 const Twitter = require("twitter");
 const Spotify = require("node-spotify-api");
 const request = require("request");
 const fs = require("fs");
+// Keys for Twitter and Spotify
 const keys = require("./keys.js");
+// Separator text for logging in console and text files
 const logSeparator = "\n==========\n";
 
 // Hold the command for this round
@@ -32,7 +35,7 @@ function pickSomeCommand(aCommand, aCommandArg) {
             doSomething();
             break;
         default:
-        // TODO: create a function that will randomly run one of the other functions
+            console.log("Next time, try using my-tweets, spotify-this-song, movie-this, or do-what-it-says as arguments.");
     };
 };
 
@@ -52,7 +55,7 @@ function getTweets() {
     });
     // Parameters for the API request
     let tweetParams = {
-        screen_name: "maxyeamans",
+        screen_name: "mitchhedbot",
         count: 20
     }
 
@@ -71,25 +74,19 @@ function getTweets() {
 };
 
 /*  Run this when the user passes the node argument "spotify-this-song".
-    Accepts a song title after the call as a series of strings and concatenates them into one argument, like so
+    Accepts a song title after the call as a series of strings and concatenates them into one argument, like so:
         spotify-this-song all the small things
-    or you can pass a string in quotes, like so
+    or you can pass a string in quotes, like so:
         spotify-this-song "all the small things"
     The latter works more consistently than the former. */
 function getSongInfo(song) {
-    // This needs to get:
-    /*  Artist(s)
-    Song name
-    Album
-    Preview link for the song */
-
     // If no song is provided, default it to "The Sign" by Ace of Base.
     if (song == "") {
-        song = "The Sign Ace of Base"
+        song = "The Sign Ace of Base";
     };
     // Please don't actually let this happen.
 
-    // Create the Spotify object WITH A CONSTRUCTOR OMG
+    // Create the Spotify object
     let spotifyClient = new Spotify({
         id: keys.spotify.id,
         secret: keys.spotify.secret
@@ -110,21 +107,16 @@ function getSongInfo(song) {
             return;
         }
         // Little shortcut variable because Spotify returns GIGANTIC response objects
-        let spotifyResults = data;
-        let objectShortcut = spotifyResults.tracks.items[0];
+        let spotifyResults = data.tracks.items[0];
 
         // Display the song results. If you got "The Sign", shame on you.
-        console.log("Song: ", objectShortcut.name);
-        console.log("Band: ", objectShortcut.artists[0].name);
-        console.log("Album: ", objectShortcut.album.name);
-        console.log("Preview the song: ", objectShortcut.artists[0].external_urls.spotify);
-        // let arrLog = [];
-        // arrLog.push("\nSong: " + objectShortcut.name);
-        // arrLog.push("\nBand: " + objectShortcut.artists[0].name);
-        // arrLog.push("\nAlbum: " + objectShortcut.album.name);
-        // arrLog.push("\nPreview the song: " + objectShortcut.artists[0].external_urls.spotify);
-        // arrLog.push(logSeparator);
-        // logAndStoreResults(arrLog);
+        let arrLog = [];
+        arrLog.push("Song: " + spotifyResults.name);
+        arrLog.push("Band: " + spotifyResults.artists[0].name);
+        arrLog.push("Album: " + spotifyResults.album.name);
+        arrLog.push("Preview the song: " + spotifyResults.artists[0].external_urls.spotify);
+        arrLog.push(logSeparator);
+        logAndStoreResults(arrLog);
     });
 };
 
@@ -135,48 +127,31 @@ function getSongInfo(song) {
         movie-this "empire strikes back"
     The latter works more consistently than the former. */
 function getMovieInfo(movie) {
-    // This needs to get
-    /*  Title of the movie.
-        Year the movie came out.
-        IMDB Rating of the movie.
-        Rotten Tomatoes Rating of the movie.
-        Country where the movie was produced.
-        Language of the movie.
-        Plot of the movie.
-        Actors in the movie.*/
     // If no movie is provided, get the deets for Mr. Nobody
     if (movie === "") {
         movie = "Mr. Nobody";
     }
-
+    // Variable to hold the query URL
     let queryURL = "http://www.omdbapi.com/?t=" + movie + "&y=&plot=short&apikey=trilogy";
+    // API request
     request(queryURL, function (error, response, body) {
-        if (error) {
-            console.log("Something went wrong", error);
+        let movieResponse = JSON.parse(body);
+        if (error || movieResponse.Response == "False") {
+            console.log("Something went wrong. Try again?", error);
         }
         /* else if (movieResponse.Response === "False") {
             console.log("Are you sure that you typed in an actual movie?");
         } */
         else {
-            let movieResponse = JSON.parse(body);
-            // Tighten this up somehow
-            // console.log("Title: ", movieResponse.Title);
-            // console.log("Year: ", movieResponse.Year);
-            // console.log("IMDB Rating: ", movieResponse.Ratings[0].Value);
-            // console.log("Rotten Tomatoes Rating: ", movieResponse.Ratings[1].Value);
-            // console.log("Produced in: ", movieResponse.Country);
-            // console.log("Language: ", movieResponse.Language);
-            // console.log("Plot: ", movieResponse.Plot);
-            // console.log("Actors: ", movieResponse.Actors);
             let arrLog = [];
-            arrLog.push("\nTitle: " + movieResponse.Title);
-            arrLog.push("\nYear: " + movieResponse.Year);
-            arrLog.push("\nIMDB Rating: " + movieResponse.Ratings[0].Value);
-            arrLog.push("\nRotten Tomatoes Rating: " + movieResponse.Ratings[1].Value);
-            arrLog.push("\nProduced in: " + movieResponse.Country);
-            arrLog.push("\nLanguage: " + movieResponse.Language);
-            arrLog.push("\nPlot: " + movieResponse.Plot);
-            arrLog.push("\nActors: " + movieResponse.Actors);
+            arrLog.push("Title: " + movieResponse.Title);
+            arrLog.push("Year: " + movieResponse.Year);
+            arrLog.push("IMDB Rating: " + movieResponse.Ratings[0].Value);
+            arrLog.push("Rotten Tomatoes Rating: " + movieResponse.Ratings[1].Value);
+            arrLog.push("Produced in: " + movieResponse.Country);
+            arrLog.push("Language: " + movieResponse.Language);
+            arrLog.push("Plot: " + movieResponse.Plot);
+            arrLog.push("Actors: " + movieResponse.Actors);
             arrLog.push(logSeparator);
             logAndStoreResults(arrLog);
         }
@@ -186,14 +161,14 @@ function getMovieInfo(movie) {
 /* This will read random.txt, split the text into a command and command argument, then use those as
 arguments in the pickSomeCommand() function. */
 function doSomething() {
-    var fs = require("fs");
-
+    // Read the text file
     fs.readFile("random.txt", "utf-8", function (err, data) {
         if (err) {
             return console.log("Something went wrong.", err);
         }
-
+        // Split the text result into an array with a command and a command argument
         const arrCommand = data.split(",");
+        // Run the function with the command and its argument
         pickSomeCommand(arrCommand[0], arrCommand[1]);
     });
 };
@@ -202,11 +177,24 @@ function doSomething() {
 // TODO: see if I can get the results of each query stored as an object, then rewrite this to accept that object as an argument.
 function logAndStoreResults(arrResult) {
     arrResult.forEach( function(item){
-        fs.appendFile("log.txt", item, function(err){
+        fs.appendFileSync("log.txt", "\n" + item, function(err){
             if(err){
                 return console.log("Something went wrong. And I blame you.");
             }
-            console.log(item);
-        })
+        });
+        console.log(item);
     });
+    // Alternative for one append file rather than multiple in a loop
+    // Comment out the code above and uncomment this to have a function that still works in the asynchronous spirit of javascript.
+    /* var arrString = "";
+
+    for (let i = 0; i < arrResult.length; i++) {
+        arrString += "\n" + arrResult[i];
+    };
+    fs.appendFile("log.txt", arrString, function (err) {
+        if (err) {
+            return console.log("Something went wrong. And I blame you.");
+        }
+    });
+    console.log(arrString); */
 };
