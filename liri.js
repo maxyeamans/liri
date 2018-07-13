@@ -58,6 +58,8 @@ function getTweets() {
         screen_name: "mitchhedbot",
         count: 20
     }
+    // Switched this to show tweets from a bot that just does Mitch Hedberg jokes.
+    // Everyone loves Mitch's jokes. Not as many people like my tweets.
 
     // Make the request
     client.get("statuses/user_timeline", tweetParams, function (error, tweets, response) {
@@ -139,9 +141,6 @@ function getMovieInfo(movie) {
         if (error || movieResponse.Response == "False") {
             console.log("Something went wrong. Try again?", error);
         }
-        /* else if (movieResponse.Response === "False") {
-            console.log("Are you sure that you typed in an actual movie?");
-        } */
         else {
             let arrLog = [];
             arrLog.push("Title: " + movieResponse.Title);
@@ -174,7 +173,6 @@ function doSomething() {
 };
 
 // Log the results of each query to a text file and display in the console.
-// TODO: see if I can get the results of each query stored as an object, then rewrite this to accept that object as an argument.
 function logAndStoreResults(arrResult) {
     arrResult.forEach( function(item){
         fs.appendFileSync("log.txt", "\n" + item, function(err){
