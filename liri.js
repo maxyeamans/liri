@@ -45,7 +45,6 @@ pickSomeCommand(COMMAND, COMMAND_ARG);
 // Run this when the user passes the node argument "my-tweets". No additional args required.
 // API reference: https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-user_timeline.html
 function getTweets() {
-    // This needs to get the 20 latest tweets from my account
     // Create a Twitter object with all the necessary keys.
     let client = new Twitter({
         consumer_key: keys.twitter.consumer_key,
